@@ -24,6 +24,7 @@
       <th>Publisher</th>
       <th>Year</th>
       <th>N.Copies</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -34,6 +35,10 @@
       <td th:text="${book.publisher}"></td>
       <td th:text="${book.year}"></td>
       <td th:text="${book.numberOfCopies}"></td>
+      <!-- td con i link -->
+      <td>
+        <a th:href="@{/books/show/{id}(id=${book.id})}">detail</a>
+      </td>
     </tr>
     </tbody>
   </table>
