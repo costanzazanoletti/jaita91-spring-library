@@ -6,6 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "books")
@@ -15,12 +19,19 @@ public class Book {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+
+  @NotBlank(message = "title non deve essere vuoto")
+  // se validato il title non può essere una stringa vuota
   private String title;
-  @Column(length = 13, nullable = false, unique = true)
+  @NotBlank(message = "isbn non deve essere vuoto") // validazione
+  @Size(min = 10, max = 13) // validazione
+  @Column(length = 13, nullable = false, unique = true) // mappatura su database
   private String isbn;
   private String authors;
   private String publisher;
   private Integer year;
+  @Min(0)
+  @NotNull
   private Integer numberOfCopies;
 
   // getter e setter
