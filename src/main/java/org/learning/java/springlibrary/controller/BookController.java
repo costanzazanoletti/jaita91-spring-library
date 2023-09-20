@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -85,6 +86,17 @@ public class BookController {
     bookRepository.save(formBook);
     // se il book è stato salvato con successo faccio una redirect alla pagina della lista
     return "redirect:/books";
+  }
+
+  // metodo che prende dalla request una stringa di ricerca e mostra solo i libri che la contengono
+  @GetMapping("/search")
+  public String search(@RequestParam("q") String searchString, Model model) {
+    // prendo la stringa di ricerca dalla query string /search?q=...
+    System.out.println("searchString:" + searchString);
+    // passo la stringa di ricerca al metodo custom del repository
+    List<Book> filteredBookList = bookRepository.findByTitleContaining(searchString);
+    model.addAttribute("books", filteredBookList); // passo la lista di libri al model
+    return "books/list";
   }
 
 }
