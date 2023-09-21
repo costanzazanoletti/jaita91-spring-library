@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Users')"></head>
+<body>
+<nav th:replace="fragments/navbar :: navbar(area='books')"></nav>
+<div class="container">
+  <h1>Users</h1>
+  <hr>
+  <div class="my-3">
+    <a th:href="@{/users/create}" class="btn btn-primary">Add User</a>
+  </div>
+  <!-- la lista degli utenti si trova nell'attributo userList -->
+  <ul class="list-group" th:if="${userList.size() > 0}">
+    <li th:each="user : ${userList}" class="list-group-item">
+      <span th:text="${user.firstName}"></span>
+      <span th:text="${user.lastName}"></span>
+    </li>
+  </ul>
+  <!-- se la lista è vuota mostro un messaggio -->
+  <div th:if="${userList.size() == 0}" class="alert alert-info">
+    There are no users yet
+  </div>
+</div>
+</body>
+</html>

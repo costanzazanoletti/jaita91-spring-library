@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Add User')"></head>
+<body>
+<nav th:replace="fragments/navbar :: navbar(area='books')"></nav>
+<div class="container">
+  <h1>Create User</h1>
+  <hr>
+  <!-- form mappato sull'oggetto user -->
+  <form
+      th:action="@{/users/create}"
+      id="user-form"
+      method="POST"
+      th:object="${user}"
+  >
+    <!-- firstName -->
+    <div class="mb-3">
+      <label for="first-name" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="first-name" th:field="*{firstName}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <!-- lastName -->
+    <div class="mb-3">
+      <label for="last-name" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="last-name" th:field="*{lastName}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a th:href="@{/users}" class="btn btn-primary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
