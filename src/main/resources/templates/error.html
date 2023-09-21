@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Books')"></head>
+<body>
+<div class="container">
+  <h1>Error Page</h1>
+  <p th:text="${error}"></p>
+  <p th:text="${status}"></p>
+  <p th:text="${message}"></p>
+  <p th:text="${exception}"></p>
+  <p th:text="${trace}"></p>
+  <div class="my-5">
+    <a th:href="@{/}" class="btn btn-primary">Go back home</a>
+  </div>
+</div>
+</body>
+</html>
