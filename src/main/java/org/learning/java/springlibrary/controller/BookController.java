@@ -35,7 +35,6 @@ public class BookController {
   }
 
   // metodo show che mostra il dettaglio di un libro preso per id
-
   @GetMapping("/show/{bookId}")
   public String show(@PathVariable("bookId") Integer id, Model model) {
     System.out.println("Id: " + id); // solo per debug
@@ -85,6 +84,45 @@ public class BookController {
     // per salvare il book su database chiama in aiuto il bookRepository
     bookRepository.save(formBook);
     // se il book è stato salvato con successo faccio una redirect alla pagina della lista
+    return "redirect:/books";
+  }
+
+  /* metodi per update */
+  @GetMapping("/edit/{id}")
+  public String edit(@PathVariable Integer id, Model model) {
+    // cerco su database il libro con quell'id
+    Optional<Book> result = bookRepository.findById(id);
+    // verifico se il book è presente
+    if (result.isPresent()) {
+      // passo il Book al model come attributo
+      model.addAttribute("book", result.get());
+      // ritorno il template con il form di edit
+      return "books/edit";
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id " + id + " not found");
+    }
+  }
+
+  // postmapping che riceve il submit
+  @PostMapping("/edit/{id}")
+  public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("book") Book formBook,
+      BindingResult bindingResult) {
+    // valido i dati
+    if (bindingResult.hasErrors()) {
+      // si sono verificati degli errori di validazione
+      return "/books/edit"; // nome del template per ricreare la view
+    }
+    // salvo il Book
+    bookRepository.save(formBook);
+    return "redirect:/books";
+  }
+
+  // metodo per la delete
+  @PostMapping("/delete/{id}")
+  public String deleteById(@PathVariable Integer id) {
+    // cancello il book
+    bookRepository.deleteById(id);
+    // rimando alla pagina con la lista
     return "redirect:/books";
   }
 
