@@ -6,7 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +26,10 @@ public class User {
   @NotBlank
   @Size(max = 255)
   private String lastName;
+
+  @NotNull
+  @PastOrPresent
+  private LocalDate registrationDate;
 
   public Integer getId() {
     return id;
@@ -46,5 +53,13 @@ public class User {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public LocalDate getRegistrationDate() {
+    return registrationDate;
+  }
+
+  public void setRegistrationDate(LocalDate registrationDate) {
+    this.registrationDate = registrationDate;
   }
 }

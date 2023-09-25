@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head('Add User')"></head>
+<head th:replace="fragments/head :: head('User Form')"></head>
 <body>
-<nav th:replace="fragments/navbar :: navbar(area='books')"></nav>
+<nav th:replace="fragments/navbar :: navbar(area='users')"></nav>
 <div class="container">
-  <h1>Create User</h1>
+  <!-- titolo parametrico con operatore ternario che testa se l'id dello user è null oppure no -->
+  <h1 th:text="${user.id != null ? 'Edit User' : 'Create User'}"></h1>
   <hr>
   <!-- form mappato sull'oggetto user -->
   <form
-      th:action="@{/users/create}"
+      th:action="${user.id != null} ? @{/users/edit/{id}(id = ${user.id})} : @{/users/create}"
       id="user-form"
       method="POST"
       th:object="${user}"
@@ -32,6 +33,17 @@
       <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}">
         <ul>
           <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <!-- registrationDate -->
+    <div class="mb-3">
+      <label for="registration-date" class="form-label">Registration Date</label>
+      <input type="date" class="form-control" id="registration-date" th:field="*{registrationDate}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('registrationDate')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('registrationDate')}" th:text="${err}"></li>
         </ul>
       </div>
     </div>
