@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Borrowing Form')"></head>
+<body>
+<nav th:replace="fragments/navbar :: navbar(area='books')"></nav>
+<div class="container">
+
+  <h1>Edit Borrowing</h1>
+  <h2 th:text="${borrowing.book.title}"></h2>
+  <hr>
+  <!-- form mappato sull'oggetto borrowing -->
+  <form
+      th:action="@{/borrowings/edit/{id}(id=${borrowing.id})}"
+      id="borrowing-form"
+      method="POST"
+      th:object="${borrowing}"
+  >
+    <!-- input hidden per il book-->
+    <input type="hidden" th:field="*{book}">
+    <!-- startDate -->
+    <div class="mb-3">
+      <label for="start-date" class="form-label">Start Date</label>
+      <input type="date" class="form-control" id="start-date" th:field="*{startDate}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('startDate')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <!-- expireDate -->
+    <div class="mb-3">
+      <label for="expire-date" class="form-label">Expire Date</label>
+      <input type="date" class="form-control" id="expire-date" th:field="*{expireDate}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('expireDate')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('expireDate')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <!-- returnDate -->
+    <div class="mb-3">
+      <label for="return-date" class="form-label">Return Date</label>
+      <input type="date" class="form-control" id="return-date" th:field="*{returnDate}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('returnDate')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('returnDate')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a th:href="@{/books/show/{bookId}(bookId=${borrowing.book.id})}" class="btn btn-primary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,15 +1,18 @@
 package org.learning.java.springlibrary.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -33,6 +36,11 @@ public class Book {
   @Min(0)
   @NotNull
   private Integer numberOfCopies;
+
+  // mapped by vuole il nome dell'attributo sull'entità Borrowing dove si trova la relazione con il Book
+  // cascade indica quali operazioni propagare alle istanze della entità figlia
+  @OneToMany(mappedBy = "book", cascade = {CascadeType.REMOVE})
+  private List<Borrowing> borrowings;
 
   // getter e setter
 
@@ -90,5 +98,13 @@ public class Book {
 
   public void setNumberOfCopies(Integer numberOfCopies) {
     this.numberOfCopies = numberOfCopies;
+  }
+
+  public List<Borrowing> getBorrowings() {
+    return borrowings;
+  }
+
+  public void setBorrowings(List<Borrowing> borrowings) {
+    this.borrowings = borrowings;
   }
 }

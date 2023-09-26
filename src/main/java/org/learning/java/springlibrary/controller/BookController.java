@@ -37,7 +37,7 @@ public class BookController {
   // metodo show che mostra il dettaglio di un libro preso per id
   @GetMapping("/show/{bookId}")
   public String show(@PathVariable("bookId") Integer id, Model model) {
-    System.out.println("Id: " + id); // solo per debug
+    // System.out.println("Id: " + id); // solo per debug
     // uso l'id preso dal path della request per cercare quel book su database
     // chiedo al bookRepository di fare un findById che può oppure no ritornare un Book
     Optional<Book> bookOptional = bookRepository.findById(id);

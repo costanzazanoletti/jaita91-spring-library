@@ -2,7 +2,69 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head('Book Detail')"></head>
 <body>
+<nav th:replace="fragments/navbar :: navbar(area='books')"></nav>
 <!-- ho a disposizione un attributo che si chiama book che è un oggetto di tipo Book -->
-<h1 th:text="${book.title}"></h1>
+<div class="container">
+  <h1 th:text="${book.title}"></h1>
+  <hr>
+  <div class="row">
+    <dl>
+      <dt>Authors</dt>
+      <dd th:text="${book.authors}"></dd>
+      <dt>Publisher</dt>
+      <dd th:text="${book.publisher}"></dd>
+      <dt>ISBN</dt>
+      <dd th:text="${book.isbn}"></dd>
+      <dt>Publication year</dt>
+      <dd th:text="${book.year}"></dd>
+      <dt>Number of copies</dt>
+      <dd th:text="${book.numberOfCopies}"></dd>
+    </dl>
+  </div>
+  <div class="row">
+    <h2>Borrowings</h2>
+    <div class="my-3">
+      <!-- link che porta alla pagina per creare un borrowing: devo portarmi dietro l'id del book -->
+      <a class="btn btn-primary" th:href="@{/borrowings/create(bookId=${book.id})}">Add
+        Borrowing</a>
+    </div>
+
+    <!-- mostro la table solo se ci sono dei borrowings -->
+    <table class="table" th:if="${book.borrowings.size() > 0}">
+      <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>Expire Date</th>
+        <th>Return Date</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- una riga di tabella per ogni borrowing del book -->
+      <tr th:each="borrowing : ${book.borrowings}">
+        <td th:text="${borrowing.startDate}"></td>
+        <td th:text="${borrowing.expireDate}"></td>
+        <td th:text="${borrowing.returnDate}"></td>
+        <td class="d-flex align-items-center justify-content-end">
+          <a th:href="@{/borrowings/edit/{borrowingId}(borrowingId=${borrowing.id})}"
+             class="btn btn-primary me-1">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+          <form th:action="@{/borrowings/delete/{borrowingId}(borrowingId = ${borrowing.id})}"
+                method="POST">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <!-- mostro il messaggio solo se la lista di borrowings è vuota -->
+    <div class="alert alert-info" th:unless="${book.borrowings.size() > 0}">
+      There are no borrowings
+    </div>
+  </div>
+</div>
 </body>
 </html>
