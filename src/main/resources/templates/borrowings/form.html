@@ -39,6 +39,21 @@
         </ul>
       </div>
     </div>
+    <!-- borrower -->
+    <div class="mb-3">
+      <label for="borrower">Borrower</label>
+      <!-- questo select è mappato sull'attributo borrower del Borrowing -->
+      <select id="borrower" class="form-select" th:field="*{borrower}" th:errorClass="is-invalid">
+        <option value="">Choose a user</option>
+        <option th:each="user : ${userList}" th:text="${user.fullName}"
+                th:value="${user.id}"></option>
+      </select>
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('borrower')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('borrower')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
     <div>
       <button type="submit" class="btn btn-primary">Save</button>
       <a th:href="@{/books/show/{bookId}(bookId=${borrowing.book.id})}" class="btn btn-primary">Cancel</a>

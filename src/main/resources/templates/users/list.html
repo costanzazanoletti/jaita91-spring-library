@@ -20,11 +20,14 @@
   <!-- la lista degli utenti si trova nell'attributo userList -->
   <ul class="list-group" th:if="${userList.size() > 0}">
     <li th:each="user : ${userList}"
-        class="list-group-item d-flex align-items-center justify-content-between">
+        class="list-group-item d-flex align-items-center justify-content-between"
+        th:classAppend="${user.currentBorrowings > 0 ? 'list-group-item-warning' : ''}"
+    >
       <div>
         <div>
           <span th:text="${user.firstName}"></span>
           <span th:text="${user.lastName}"></span>
+          <span class="badge bg-primary rounded-pill" th:text="${user.currentBorrowings}"></span>
         </div>
         <div class="text-muted fs-6">
           <span>Registration date:</span>
@@ -35,11 +38,19 @@
         <a th:href="@{/users/edit/{userId}(userId=${user.id})}" class="btn btn-primary me-1">
           <i class="fa-solid fa-pen-to-square"></i>
         </a>
-        <form method="POST" th:action="@{/users/delete/{userId}(userId=${user.id})}">
+        <!-- se lo user ha già dei prestiti non posso eliminarlo -->
+        <form
+            method="POST"
+            th:action="@{/users/delete/{userId}(userId=${user.id})}"
+            th:if="${user.borrowings.size() == 0}"
+        >
           <button type="submit" class="btn btn-primary">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </form>
+        <button class="btn btn-primary" th:unless="${user.borrowings.size() == 0}" disabled><i
+            class="fa-solid fa-trash-can"></i>
+        </button>
       </div>
     </li>
   </ul>

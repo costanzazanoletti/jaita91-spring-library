@@ -107,4 +107,23 @@ public class Book {
   public void setBorrowings(List<Borrowing> borrowings) {
     this.borrowings = borrowings;
   }
+
+  // metodi custom
+  // metodo che mi calcola il numero di copie attualmente disponibili (non fuori in prestito)
+  public int getAvailabeCopies() {
+    // totale di copie - numero di copie in prestito che non sono ancora state restituite
+    return numberOfCopies - getBorrowedCopies();
+  }
+
+  // metodo che calcola il numero di copie prestate non restituite
+  public int getBorrowedCopies() {
+    int numberOfBorrowedCopies = 0;
+    // calcolo il numero di copie non restituite
+    for (Borrowing b : borrowings) {
+      if (b.getReturnDate() == null) {
+        numberOfBorrowedCopies++;
+      }
+    }
+    return numberOfBorrowedCopies;
+  }
 }

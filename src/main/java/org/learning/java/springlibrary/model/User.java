@@ -4,12 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +32,10 @@ public class User {
   @NotNull
   @PastOrPresent
   private LocalDate registrationDate;
+
+
+  @OneToMany(mappedBy = "borrower")
+  private List<Borrowing> borrowings;
 
   public Integer getId() {
     return id;
@@ -61,5 +67,31 @@ public class User {
 
   public void setRegistrationDate(LocalDate registrationDate) {
     this.registrationDate = registrationDate;
+  }
+
+  public List<Borrowing> getBorrowings() {
+    return borrowings;
+  }
+
+  public void setBorrowings(List<Borrowing> borrowings) {
+    this.borrowings = borrowings;
+  }
+
+  // metodi custom
+  // nome completo
+  public String getFullName() {
+    return firstName + " " + lastName;
+  }
+
+  // metodo che restituisce quanti prestiti ha in corso l'utente
+  public int getCurrentBorrowings() {
+    int numberOfBorrowings = 0;
+    for (Borrowing b : borrowings) {
+      if (b.getReturnDate() == null) {
+        numberOfBorrowings++;
+      }
+    }
+
+    return numberOfBorrowings;
   }
 }

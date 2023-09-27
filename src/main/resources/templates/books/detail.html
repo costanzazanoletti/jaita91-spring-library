@@ -18,15 +18,29 @@
       <dt>Publication year</dt>
       <dd th:text="${book.year}"></dd>
       <dt>Number of copies</dt>
-      <dd th:text="${book.numberOfCopies}"></dd>
+      <dd>
+        <span th:text="${book.numberOfCopies}"></span>
+        <!-- invoco il metodo book.getAvailableCopies() -->
+        <span th:text="|(${book.availabeCopies} available)|"></span>
+      </dd>
     </dl>
   </div>
   <div class="row">
     <h2>Borrowings</h2>
     <div class="my-3">
       <!-- link che porta alla pagina per creare un borrowing: devo portarmi dietro l'id del book -->
-      <a class="btn btn-primary" th:href="@{/borrowings/create(bookId=${book.id})}">Add
-        Borrowing</a>
+      <a
+          th:if="${book.availabeCopies > 0}"
+          class="btn btn-primary"
+          th:href="@{/borrowings/create(bookId=${book.id})}"
+      >Add Borrowing</a>
+      <!-- se non ho copie disponibili mostro un messaggio -->
+      <th:block th:if="${book.availabeCopies <= 0}">
+        <div class="alert alert-warning">There are no available
+          copies
+        </div>
+        <button type="button" class="btn btn-primary" disabled>Add Borrowing</button>
+      </th:block>
     </div>
 
     <!-- mostro la table solo se ci sono dei borrowings -->
@@ -36,15 +50,18 @@
         <th>Start Date</th>
         <th>Expire Date</th>
         <th>Return Date</th>
+        <th>User</th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       <!-- una riga di tabella per ogni borrowing del book -->
-      <tr th:each="borrowing : ${book.borrowings}">
+      <tr th:each="borrowing : ${book.borrowings}"
+          th:classAppend="${borrowing.isExpired ? 'table-danger' : ''}">
         <td th:text="${borrowing.startDate}"></td>
         <td th:text="${borrowing.expireDate}"></td>
         <td th:text="${borrowing.returnDate}"></td>
+        <td th:text="${borrowing.borrower.fullName}"></td>
         <td class="d-flex align-items-center justify-content-end">
           <a th:href="@{/borrowings/edit/{borrowingId}(borrowingId=${borrowing.id})}"
              class="btn btn-primary me-1">

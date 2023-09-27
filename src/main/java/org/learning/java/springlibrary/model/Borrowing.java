@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -15,12 +16,19 @@ public class Borrowing {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+  @NotNull
   private LocalDate startDate;
+  @NotNull
   private LocalDate expireDate;
   private LocalDate returnDate;
 
   @ManyToOne
+  @NotNull
   private Book book;
+
+  @ManyToOne
+  @NotNull
+  private User borrower;
 
   public Integer getId() {
     return id;
@@ -60,5 +68,22 @@ public class Borrowing {
 
   public void setBook(Book book) {
     this.book = book;
+  }
+
+  public User getBorrower() {
+    return borrower;
+  }
+
+  public void setBorrower(User borrower) {
+    this.borrower = borrower;
+  }
+
+  // metodi custom
+  // metodo che mi restituisce se un prestito è scaduto
+  public boolean isExpired() {
+    // data di scadenza è passata e non è restituito
+    // data di scadenza è < data di ritorno
+    return (returnDate == null && expireDate.isBefore(LocalDate.now())) || (returnDate != null
+        && returnDate.isAfter(expireDate));
   }
 }
