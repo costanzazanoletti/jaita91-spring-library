@@ -27,7 +27,8 @@
         <div>
           <span th:text="${user.firstName}"></span>
           <span th:text="${user.lastName}"></span>
-          <span class="badge bg-primary rounded-pill" th:text="${user.currentBorrowings}"></span>
+          <span class="badge bg-primary rounded-pill"
+                th:text="${user.getCurrentBorrowings()}"></span>
         </div>
         <div class="text-muted fs-6">
           <span>Registration date:</span>

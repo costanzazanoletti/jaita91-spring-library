@@ -4,3 +4,8 @@ INSERT INTO users (first_name, last_name, registration_date) VALUES ('John', 'Do
 INSERT INTO users (first_name, last_name, registration_date) VALUES ('Jane', 'Smith', '2023-05-05');
 INSERT INTO borrowings (expire_date, return_date, start_date, book_id, borrower_id) VALUES('2023-10-26', null, '2023-09-26', 1, 1);
 INSERT INTO borrowings (expire_date, return_date, start_date, book_id, borrower_id) VALUES('2023-08-05', '2023-08-31', '2023-09-05', 1, 2);
+INSERT INTO categories (name) VALUES('fiction');
+INSERT INTO categories (name) VALUES('teenagers');
+INSERT INTO categories (name) VALUES('not fiction');
+INSERT INTO categories (name) VALUES('science');
+INSERT INTO categories (name) VALUES('fantasy');

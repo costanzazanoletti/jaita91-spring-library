@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head('Edit Book')"></head>
 <body>
+<nav th:replace="fragments/navbar :: navbar(area='books')"></nav>
 <div class="container">
   <h1>Edit Book</h1>
   <hr>
@@ -11,57 +12,70 @@
       id="book-edit"
       method="POST"
       th:object="${book}"
+      class="row"
   >
-    <!-- title -->
-    <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input class="form-control" id="title" type="text" th:field="*{title}"
-             th:errorClass="is-invalid">
-      <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
-        <ul>
-          <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
-        </ul>
+    <div class="col-8">
+      <!-- title -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input class="form-control" id="title" type="text" th:field="*{title}"
+               th:errorClass="is-invalid">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+          <ul>
+            <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+          </ul>
+        </div>
+      </div>
+      <!-- isbn -->
+      <div class="mb-3">
+        <label for="isbn" class="form-label">ISBN</label>
+        <input class="form-control" id="isbn" type="text" th:field="*{isbn}" maxlength="13"
+               th:errorClass="is-invalid">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('isbn')}">
+          <ul>
+            <li th:each="err : ${#fields.errors('isbn')}" th:text="${err}"></li>
+          </ul>
+        </div>
+      </div>
+      <!-- authors -->
+      <div class="mb-3">
+        <label for="authors" class="form-label">Authors</label>
+        <input class="form-control" id="authors" type="text" th:field="*{authors}">
+      </div>
+      <!-- publisher -->
+      <div class="mb-3">
+        <label for="publisher" class="form-label">Publisher</label>
+        <input class="form-control" id="publisher" type="text" th:field="*{publisher}">
+      </div>
+      <!-- year -->
+      <div class="mb-3">
+        <label for="year" class="form-label">Year of publication</label>
+        <input class="form-control" id="year" type="number" th:field="*{year}">
+      </div>
+      <!-- numberOfCopies -->
+      <div class="mb-3">
+        <label for="number-of-copies" class="form-label">Number of copies</label>
+        <input class="form-control" id="number-of-copies" type="number" th:field="*{numberOfCopies}"
+               th:errorClass="is-invalid">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('numberOfCopies')}">
+          <ul>
+            <li th:each="err : ${#fields.errors('numberOfCopies')}" th:text="${err}"></li>
+          </ul>
+        </div>
       </div>
     </div>
-    <!-- isbn -->
-    <div class="mb-3">
-      <label for="isbn" class="form-label">ISBN</label>
-      <input class="form-control" id="isbn" type="text" th:field="*{isbn}" maxlength="13"
-             th:errorClass="is-invalid">
-      <div class="invalid-feedback" th:if="${#fields.hasErrors('isbn')}">
-        <ul>
-          <li th:each="err : ${#fields.errors('isbn')}" th:text="${err}"></li>
-        </ul>
+    <!-- categorie -->
+    <div class="col-4">
+      <h4>Categories</h4>
+      <div class="form-check" th:each="cat : ${categoryList}">
+        <input class="form-check-input" type="checkbox" th:value="${cat.id}"
+               th:id="|catagory_${cat.id}|" th:field="*{categories}">
+        <label class="form-check-label" th:for="|catagory_${cat.id}|" th:text="${cat.name}"></label>
       </div>
     </div>
-    <!-- authors -->
-    <div class="mb-3">
-      <label for="authors" class="form-label">Authors</label>
-      <input class="form-control" id="authors" type="text" th:field="*{authors}">
-    </div>
-    <!-- publisher -->
-    <div class="mb-3">
-      <label for="publisher" class="form-label">Publisher</label>
-      <input class="form-control" id="publisher" type="text" th:field="*{publisher}">
-    </div>
-    <!-- year -->
-    <div class="mb-3">
-      <label for="year" class="form-label">Year of publication</label>
-      <input class="form-control" id="year" type="number" th:field="*{year}">
-    </div>
-    <!-- numberOfCopies -->
-    <div class="mb-3">
-      <label for="number-of-copies" class="form-label">Number of copies</label>
-      <input class="form-control" id="number-of-copies" type="number" th:field="*{numberOfCopies}"
-             th:errorClass="is-invalid">
-      <div class="invalid-feedback" th:if="${#fields.hasErrors('numberOfCopies')}">
-        <ul>
-          <li th:each="err : ${#fields.errors('numberOfCopies')}" th:text="${err}"></li>
-        </ul>
-      </div>
-    </div>
+
     <!-- buttons -->
-    <div>
+    <div class="col-12">
       <button type="submit" class="btn btn-primary">Save</button>
       <a class="btn btn-primary" th:href="@{/books}">Cancel</a>
     </div>

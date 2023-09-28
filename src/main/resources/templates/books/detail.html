@@ -8,22 +8,33 @@
   <h1 th:text="${book.title}"></h1>
   <hr>
   <div class="row">
-    <dl>
-      <dt>Authors</dt>
-      <dd th:text="${book.authors}"></dd>
-      <dt>Publisher</dt>
-      <dd th:text="${book.publisher}"></dd>
-      <dt>ISBN</dt>
-      <dd th:text="${book.isbn}"></dd>
-      <dt>Publication year</dt>
-      <dd th:text="${book.year}"></dd>
-      <dt>Number of copies</dt>
-      <dd>
-        <span th:text="${book.numberOfCopies}"></span>
-        <!-- invoco il metodo book.getAvailableCopies() -->
-        <span th:text="|(${book.availabeCopies} available)|"></span>
-      </dd>
-    </dl>
+    <!-- dati del libro -->
+    <div class="col-6">
+      <dl>
+        <dt>Authors</dt>
+        <dd th:text="${book.authors}"></dd>
+        <dt>Publisher</dt>
+        <dd th:text="${book.publisher}"></dd>
+        <dt>ISBN</dt>
+        <dd th:text="${book.isbn}"></dd>
+        <dt>Publication year</dt>
+        <dd th:text="${book.year}"></dd>
+        <dt>Number of copies</dt>
+        <dd>
+          <span th:text="${book.numberOfCopies}"></span>
+          <!-- invoco il metodo book.getAvailableCopies() -->
+          <span th:text="|(${book.availabeCopies} available)|"></span>
+        </dd>
+      </dl>
+    </div>
+    <!-- categorie -->
+    <div class="col-6">
+      <h4>Categories</h4>
+      <ul>
+        <li th:each="cat : ${book.categories}" th:text="${cat.name}"></li>
+      </ul>
+    </div>
+
   </div>
   <div class="row">
     <h2>Borrowings</h2>

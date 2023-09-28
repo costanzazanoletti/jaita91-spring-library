@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.learning.java.springlibrary.model.Book;
+import org.learning.java.springlibrary.model.Category;
 import org.learning.java.springlibrary.repository.BookRepository;
+import org.learning.java.springlibrary.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class BookController {
   @Autowired
   // dependency injection: quando si crea un oggetto di tipo BookController ha bisogno di un BookRepository
   private BookRepository bookRepository;
+
+  @Autowired
+  private CategoryRepository categoryRepository;
 
   // metodo index che mostra la lista di tutti i Book
   @GetMapping
@@ -56,9 +61,13 @@ public class BookController {
   // controller che mostra la pagina di creazione di un Book
   @GetMapping("/create") // url
   public String create(Model model) {
+
+    // devo recuperare le categorie presenti su db
+    List<Category> categoryList = categoryRepository.findAll();
+    // devo passare la lista di categorie al model come attributo
+    model.addAttribute("categoryList", categoryList);
     // aggiungiamo al model un attributo di tipo Book
     model.addAttribute("book", new Book());
-
     return "books/form"; // template
   }
 
@@ -70,11 +79,13 @@ public class BookController {
    * */
   @PostMapping("/create")
   public String doCreate(@Valid @ModelAttribute("book") Book formBook,
-      BindingResult bindingResult) {
+      BindingResult bindingResult, Model model) {
     // formBook è un oggetto Book costruito con i dati che arrivano dalla request, quindi dal form
 
     // prima di salvare il book verifico che non ci siano errori di validazione
     if (bindingResult.hasErrors()) {
+      // devo passare la lista di categorie al model come attributo
+      model.addAttribute("categoryList", categoryRepository.findAll());
       return "books/form"; // template
     }
 
@@ -96,6 +107,8 @@ public class BookController {
     if (result.isPresent()) {
       // passo il Book al model come attributo
       model.addAttribute("book", result.get());
+      // passo la lista delle categorie per popolare le ceckbox
+      model.addAttribute("categoryList", categoryRepository.findAll());
       // ritorno il template con il form di edit
       return "books/edit";
     } else {
@@ -106,9 +119,11 @@ public class BookController {
   // postmapping che riceve il submit
   @PostMapping("/edit/{id}")
   public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("book") Book formBook,
-      BindingResult bindingResult) {
+      BindingResult bindingResult, Model model) {
     // valido i dati
     if (bindingResult.hasErrors()) {
+      // passo la lista delle categorie per popolare le ceckbox
+      model.addAttribute("categoryList", categoryRepository.findAll());
       // si sono verificati degli errori di validazione
       return "/books/edit"; // nome del template per ricreare la view
     }

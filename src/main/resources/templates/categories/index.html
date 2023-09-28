@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Categories')"></head>
+<body>
+<nav th:replace="fragments/navbar :: navbar(area='categories')"></nav>
+<div class="container">
+  <h1>Categories</h1>
+  <!-- form per aggiungere categorie -->
+  <section class="mb-5">
+    <form
+        th:action="@{/categories/create}"
+        id="category-form"
+        method="POST"
+        th:object="${categoryObj}"
+    >
+      <div class="input-group">
+        <input type="text" class="form-control" id="category-name" th:field="*{name}"
+               placeholder="Add a category">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </section>
+  <!-- lista delle categorie -->
+  <section>
+    <ul class="list-group">
+      <li
+          class="list-group-item d-flex align-items-center justify-content-between"
+          th:each="cat : ${categoryList}"
+      >
+        <div th:text="${cat.name}"></div>
+        <div>
+          <form th:action="@{/categories/delete/{catId}(catId=${cat.id})}" method="POST">
+            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-trash-can"></i>
+            </button>
+          </form>
+        </div>
+      </li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>
