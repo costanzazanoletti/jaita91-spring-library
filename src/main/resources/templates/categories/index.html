@@ -4,6 +4,13 @@
 <body>
 <nav th:replace="fragments/navbar :: navbar(area='categories')"></nav>
 <div class="container">
+  <!-- potrebbe esserci un attributo message che arriva dalla redirect -->
+  <div th:if="${message != null}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <span th:text="${message}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
   <h1>Categories</h1>
   <!-- form per aggiungere categorie -->
   <section class="mb-5">

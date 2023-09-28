@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/categories")
@@ -30,10 +31,13 @@ public class CategoryController {
 
   // metodo doCreate che salva la nuova categoria
   @PostMapping("/create")
-  public String doCreate(@ModelAttribute("categoryObj") Category categoryForm) {
+  public String doCreate(@ModelAttribute("categoryObj") Category categoryForm,
+      RedirectAttributes redirectAttributes) {
     // prende l'oggetto Category dalla request
     // lo salva su database
     categoryRepository.save(categoryForm);
+    // aggiungo ai redirectAttributes un flasAttribute con un messaggio di conferma
+    redirectAttributes.addFlashAttribute("message", "Category successfully added!");
     // fa la redirect alla pagina index
     return "redirect:/categories";
   }
