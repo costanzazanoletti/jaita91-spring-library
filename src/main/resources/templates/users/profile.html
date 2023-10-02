@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Profile')"></head>
+<body>
+<nav th:replace="fragments/navbar :: navbar(area='users')"></nav>
+
+<div class="container">
+  <h1>Profile</h1>
+  <h2 th:text="${user.fullName}"></h2>
+</div>
+</body>
+</html>

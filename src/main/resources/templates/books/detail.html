@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head('Book Detail')"></head>
 <body>
 <nav th:replace="fragments/navbar :: navbar(area='books')"></nav>
@@ -36,7 +36,7 @@
     </div>
 
   </div>
-  <div class="row">
+  <div class="row" sec:authorize="hasAuthority('ADMIN')">
     <h2>Borrowings</h2>
     <div class="my-3">
       <!-- link che porta alla pagina per creare un borrowing: devo portarmi dietro l'id del book -->

@@ -1,17 +1,21 @@
 package org.learning.java.springlibrary.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +37,18 @@ public class User {
   @PastOrPresent
   private LocalDate registrationDate;
 
+
+  @NotBlank
+  @NotNull
+  @Email
+  private String email;
+
+  @NotNull
+  @NotBlank
+  private String password;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  private Set<Role> roles;
 
   @OneToMany(mappedBy = "borrower")
   private List<Borrowing> borrowings;
@@ -67,6 +83,30 @@ public class User {
 
   public void setRegistrationDate(LocalDate registrationDate) {
     this.registrationDate = registrationDate;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
   }
 
   public List<Borrowing> getBorrowings() {

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -28,7 +28,7 @@
           >Books</a>
         </li>
         <!-- link per Users -->
-        <li class="nav-item">
+        <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
           <a
               class="nav-link"
               th:href="@{/users}"
@@ -36,7 +36,7 @@
           >Users</a>
         </li>
         <!-- link per Categories -->
-        <li class="nav-item">
+        <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
           <a
               class="nav-link"
               th:href="@{/categories}"
@@ -44,6 +44,11 @@
           >Categories</a>
         </li>
       </ul>
+      <div sec:authorize="isAuthenticated()"
+           class="w-100 d-flex align-items-center justify-content-end">
+        <span sec:authentication="name"></span>
+        <a class="btn btn-warning" th:href="@{/logout}">Logout</a>
+      </div>
     </div>
   </div>
 </nav>
