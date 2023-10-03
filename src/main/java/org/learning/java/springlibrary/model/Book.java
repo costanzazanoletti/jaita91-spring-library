@@ -1,6 +1,6 @@
 package org.learning.java.springlibrary.model;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,11 +41,13 @@ public class Book {
 
   // mapped by vuole il nome dell'attributo sull'entità Borrowing dove si trova la relazione con il Book
   // cascade indica quali operazioni propagare alle istanze della entità figlia
-  @OneToMany(mappedBy = "book", cascade = {CascadeType.REMOVE})
-  private List<Borrowing> borrowings;
+
+  @JsonIgnore // indico che quando converto un oggetto Book in JSON ignoro questo campo
+  @OneToMany(mappedBy = "book")
+  private List<Borrowing> borrowings = new ArrayList<>();
 
   @ManyToMany
-  private List<Category> categories;
+  private List<Category> categories = new ArrayList<>();
 
   // getter e setter
 

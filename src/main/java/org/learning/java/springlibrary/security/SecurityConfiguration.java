@@ -43,7 +43,8 @@ public class SecurityConfiguration {
         .requestMatchers("/categories", "/categories/**").hasAuthority("ADMIN")
         .requestMatchers("/**").permitAll()
         .and().formLogin()
-        .and().logout();
+        .and().logout()
+        .and().csrf().disable();
     return http.build();
   }
 }
