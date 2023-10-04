@@ -10,6 +10,6 @@ public class IndexController {
 
   @GetMapping
   public String index() {
-    return "redirect:/books"; // non è nome di un template ma la nuova rotta del browser
+    return "layout/content"; // non è nome di un template ma la nuova rotta del browser
   }
 }
